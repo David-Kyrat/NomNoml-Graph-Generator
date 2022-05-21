@@ -23,6 +23,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -52,19 +53,16 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
-        if (args.length <= 0 && false)
-            System.out.println("No args.");
-        else
             launch(args);
     }
 
     private static String title = "", edgesStr = "";
+    private static String finalArgs;
 
     @Override
     public void start(Stage primaryStage) {
         int SCENE_W = 800, SCENE_H = 600;
-        System.out.println("______________________________\n\n\n");
-        List<String> args = getParameters().getRaw();
+        //System.out.println("______________________________\n\n\n");
         // String arg = "GraphTest3# 1,2 ; 2,3 ; 1,4 ; 4,6 ; 3,6";
         // Graph g = parseArgs(args.get(0));
 
@@ -79,45 +77,72 @@ public class Main extends Application {
 
         Label testLabel = new Label(" = #clicked ", countText);
 
-        Text titleText = Nodes.newTxt("Enter Graph Title & Edges", countText.getFont().getName(), Color.PURPLE, 25, FontWeight.BOLD);
-
+        Text titleText = Nodes.newTxt("Enter Graph Title & Edges", countText.getFont().getName(), Color.PURPLE, 25,
+                FontWeight.BOLD);
 
         TextField field1 = withAction(new TextField(), tf -> ((TextField) tf).setPromptText("Enter Title."));
         TextField field2 = withAction(new TextField(), tf -> ((TextField) tf).setPromptText("Enter Edges."));
         int inputPadding = 100;
-        
+
         testBtn.setOnMousePressed(event -> {
-            int crt = Integer.parseInt(countText.getText()) + 1;
-            countText.setText(String.valueOf(crt));
-            Main.title = field1.getText();
-            Main.edgesStr = field2.getText();
+            handleConfirm(event, countText, field1, field2);
+            generateNomNom();
         });
-        int fontSize = 14;
-        Text res1 = Nodes.newTxt("", Color.MIDNIGHTBLUE, fontSize, FontWeight.NORMAL), res2 = Nodes.newTxt("", Color.MIDNIGHTBLUE, fontSize, FontWeight.NORMAL);
+
+        int fontSize = 15;
+        Text res1 = Nodes.newTxt("", Color.MIDNIGHTBLUE, fontSize, FontWeight.NORMAL),
+                res2 = Nodes.newTxt("", Color.MIDNIGHTBLUE, fontSize, FontWeight.NORMAL);
         res1.textProperty().bind(field1.textProperty());
         res2.textProperty().bind(field2.textProperty());
 
-
-        HBox resCntnr1 = Nodes.setUpNewHBox(50, Pos.TOP_CENTER, true, new Label("Title: "), res1);
-        HBox resCntnr2 = Nodes.setUpNewHBox(50, Pos.TOP_CENTER, true, new Label("Edges: "), res2);
+        HBox resCntnr1 = Nodes.setUpNewHBox(10, Pos.TOP_CENTER, true, new Label("TITLE: "), res1);
+        HBox resCntnr2 = Nodes.setUpNewHBox(10, Pos.TOP_CENTER, true, new Label("EDGES: "), res2);
         VBox inputFieldCntr = Nodes.setUpNewVBox(30, Pos.CENTER, true, titleText, field1, field2, resCntnr1, resCntnr2);
         inputFieldCntr.setPadding(new Insets(50, inputPadding, 50, inputPadding));
 
         VBox center = Nodes.setUpNewVBox(20, Pos.CENTER, true,
-                withClass(inputFieldCntr, "boxC"), testLabel, testBtn);
-        //enter, new Insets(20, 0, 20, 0));
+                withClass(inputFieldCntr, "boxC"), testBtn);
+        // enter, new Insets(20, 0, 20, 0));
 
         HBox bottom = Nodes.setUpNewHBox(20, Pos.CENTER, true, background);
         center.getStyleClass().add("boxB");
 
         BorderPane subroot = new BorderPane(center);
-        subroot.setBottom(withClass(bottom, "boxG"));
+        subroot.setBottom(bottom);
 
         StackPane root = new StackPane(subroot);
         Scene scene = new Scene(root, SCENE_W, SCENE_H);
         scene.getStylesheets().add("/res/debug.css");
 
         Nodes.setShow(primaryStage, scene);
+
+    }
+
+    /**
+     * << Main >> method of Model i.e. rest of program non-graphic related
+     */
+    public static void generateNomNom() {
+        Graph g = parseArgs(finalArgs);
+
+        System.out.println(g.draw());
+        FileUtils.drawToFile(g);
+    }
+
+    /**
+     * Handle what happens when confirm button is Clicked
+     * 
+     * @param e         MousEvent
+     * @param countText Text
+     * @param f1        TextField
+     * @param f2        TextField
+     */
+    public static void handleConfirm(MouseEvent e, Text countText, TextField f1, TextField f2) {
+        int crt = Integer.parseInt(countText.getText()) + 1;
+        countText.setText(String.valueOf(crt));
+        title = f1.getText();
+        edgesStr = f2.getText();
+        finalArgs = title.strip() + "#" + edgesStr.strip();
+        System.out.println("Final Args: " + finalArgs);
     }
 
     /**
