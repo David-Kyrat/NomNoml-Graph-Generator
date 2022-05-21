@@ -15,5 +15,8 @@
     "docwriter.style": "Auto-detect",
     "files.watcherExclude": {
         "**/target": true
-    }
+    },
+    "java.project.sourcePaths": [
+        ".",
+    ]
 }
