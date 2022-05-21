@@ -1,5 +1,8 @@
 package ch;
 
+import static ch.Helpers.Nodes.withAction;
+import static ch.Helpers.Nodes.withClass;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -12,8 +15,22 @@ import java.util.List;
 import ch.GraphContent.Edge;
 import ch.GraphContent.Graph;
 import ch.GraphContent.Vertex;
+import ch.Helpers.Nodes;
 import javafx.application.Application;
-import javafx.application.Platform;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -34,23 +51,73 @@ public class Main extends Application {
         FileUtils.drawToFile(fileName, g);
     }
 
-    // test
     public static void main(String[] args) {
-        if (args.length <= 0)
+        if (args.length <= 0 && false)
             System.out.println("No args.");
         else
             launch(args);
     }
 
+    private static String title = "", edgesStr = "";
+
     @Override
     public void start(Stage primaryStage) {
+        int SCENE_W = 800, SCENE_H = 600;
+        System.out.println("______________________________\n\n\n");
         List<String> args = getParameters().getRaw();
-
         // String arg = "GraphTest3# 1,2 ; 2,3 ; 1,4 ; 4,6 ; 3,6";
+        // Graph g = parseArgs(args.get(0));
 
-        Graph g = parseArgs(args.get(0));
         // System.out.println(g.draw());
-        FileUtils.drawToFile(g);
+        // FileUtils.drawToFile(g);
+        Rectangle background = new Rectangle(0.1 * SCENE_W, 0.1 * SCENE_H, Color.RED);
+        Button testBtn = new Button("Confirm");
+        Text countText = new Text("0");
+        countText.getStyleClass().add("boxR");
+
+        countText.getStyleClass().add("boxBl");
+
+        Label testLabel = new Label(" = #clicked ", countText);
+
+        Text titleText = Nodes.newTxt("Enter Graph Title & Edges", countText.getFont().getName(), Color.PURPLE, 25, FontWeight.BOLD);
+
+
+        TextField field1 = withAction(new TextField(), tf -> ((TextField) tf).setPromptText("Enter Title."));
+        TextField field2 = withAction(new TextField(), tf -> ((TextField) tf).setPromptText("Enter Edges."));
+        int inputPadding = 100;
+        
+        testBtn.setOnMousePressed(event -> {
+            int crt = Integer.parseInt(countText.getText()) + 1;
+            countText.setText(String.valueOf(crt));
+            Main.title = field1.getText();
+            Main.edgesStr = field2.getText();
+        });
+        int fontSize = 14;
+        Text res1 = Nodes.newTxt("", Color.MIDNIGHTBLUE, fontSize, FontWeight.NORMAL), res2 = Nodes.newTxt("", Color.MIDNIGHTBLUE, fontSize, FontWeight.NORMAL);
+        res1.textProperty().bind(field1.textProperty());
+        res2.textProperty().bind(field2.textProperty());
+
+
+        HBox resCntnr1 = Nodes.setUpNewHBox(50, Pos.TOP_CENTER, true, new Label("Title: "), res1);
+        HBox resCntnr2 = Nodes.setUpNewHBox(50, Pos.TOP_CENTER, true, new Label("Edges: "), res2);
+        VBox inputFieldCntr = Nodes.setUpNewVBox(30, Pos.CENTER, true, titleText, field1, field2, resCntnr1, resCntnr2);
+        inputFieldCntr.setPadding(new Insets(50, inputPadding, 50, inputPadding));
+
+        VBox center = Nodes.setUpNewVBox(20, Pos.CENTER, true,
+                withClass(inputFieldCntr, "boxC"), testLabel, testBtn);
+        //enter, new Insets(20, 0, 20, 0));
+
+        HBox bottom = Nodes.setUpNewHBox(20, Pos.CENTER, true, background);
+        center.getStyleClass().add("boxB");
+
+        BorderPane subroot = new BorderPane(center);
+        subroot.setBottom(withClass(bottom, "boxG"));
+
+        StackPane root = new StackPane(subroot);
+        Scene scene = new Scene(root, SCENE_W, SCENE_H);
+        scene.getStylesheets().add("/res/debug.css");
+
+        Nodes.setShow(primaryStage, scene);
     }
 
     /**

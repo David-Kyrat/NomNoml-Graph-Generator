@@ -5,6 +5,13 @@
             "name": "Launch Main",
             "request": "launch",
             "mainClass": "ch.Main",
+            "projectName": "NomNomGenerator_44ee8be3"
+        },
+        {
+            "type": "java",
+            "name": "Launch Main",
+            "request": "launch",
+            "mainClass": "ch.Main",
             "projectName": "NomNomGenerator_fcf69a6d"
         },
         {
