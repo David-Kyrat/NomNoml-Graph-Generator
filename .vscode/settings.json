@@ -15,5 +15,29 @@
     "docwriter.style": "Auto-detect",
     "files.watcherExclude": {
         "**/target": true
-    }
+    },
+    "java.project.referencedLibraries": {
+        "include": [
+            "lib/**/*.jar",
+            "c:\\Users\\noahm\\OneDrive\\ProgramFiles_and_Libraries\\JavaFx\\javafx-sdk-18.0.1\\lib/**/*.jar",
+            "c:\\Users\\noahm\\OneDrive\\ProgramFiles_and_Libraries\\JavaFx\\javafx-sdk-18.0.1\\javadoc//**/*.jar"
+        ],
+        "sources": {
+            "javafx.base.jar": "c:\\Users\\noahm\\OneDrive\\ProgramFiles_and_Libraries\\JavaFx\\javafx-sdk-18.0.1\\javadoc\\javafx-base-18.0.1-javadoc.jar",
+            "javafx.controls.jar": "c:\\Users\\noahm\\OneDrive\\ProgramFiles_and_Libraries\\JavaFx\\javafx-sdk-18.0.1\\javadoc\\javafx-controls-18.0.1-javadoc.jar",
+            "javafx.graphics.jar": "c:\\Users\\noahm\\OneDrive\\ProgramFiles_and_Libraries\\JavaFx\\javafx-sdk-18.0.1\\javadoc\\javafx-controls-18.0.1-javadoc.jar"
+        }
+    },
+    "java.project.sourcePaths": [
+        ".",
+    ]
+    /* "c:\\Users\\noahm\\OneDrive\\ProgramFiles_and_Libraries\\JavaFx\\javafx-sdk-18.0.1\\lib\\javafx.base.jar",
+        "c:\\Users\\noahm\\OneDrive\\ProgramFiles_and_Libraries\\JavaFx\\javafx-sdk-18.0.1\\lib\\javafx.controls.jar",
+        "c:\\Users\\noahm\\OneDrive\\ProgramFiles_and_Libraries\\JavaFx\\javafx-sdk-18.0.1\\lib\\javafx.fxml.jar",
+        "c:\\Users\\noahm\\OneDrive\\ProgramFiles_and_Libraries\\JavaFx\\javafx-sdk-18.0.1\\lib\\javafx.graphics.jar",
+        "c:\\Users\\noahm\\OneDrive\\ProgramFiles_and_Libraries\\JavaFx\\javafx-sdk-18.0.1\\lib\\javafx.media.jar",
+        "c:\\Users\\noahm\\OneDrive\\ProgramFiles_and_Libraries\\JavaFx\\javafx-sdk-18.0.1\\lib\\javafx.swing.jar",
+        "c:\\Users\\noahm\\OneDrive\\ProgramFiles_and_Libraries\\JavaFx\\javafx-sdk-18.0.1\\lib\\javafx.web.jar",
+        "C:\\Users\\noahm\\OneDrive\\ProgramFiles_and_Libraries\\JavaFx\\javafx-sdk-18.0.1\\src/**",
+        "c:\\Users\\noahm\\OneDrive\\ProgramFiles_and_Libraries\\JavaFx\\javafx-sdk-18.0.1\\lib/**/ //*.jar" */
 }

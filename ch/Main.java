@@ -12,8 +12,11 @@ import java.util.List;
 import ch.GraphContent.Edge;
 import ch.GraphContent.Graph;
 import ch.GraphContent.Vertex;
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.stage.Stage;
 
-public class Main {
+public class Main extends Application {
 
     public void test() {
         List<Edge> testEdges = List.of(
@@ -31,13 +34,23 @@ public class Main {
         FileUtils.drawToFile(fileName, g);
     }
 
-    public static void main(String[] args) throws IOException {
-        if (args.length <= 0) { System.out.println("No args."); return; }
-        //String arg = "GraphTest3# 1,2 ; 2,3 ; 1,4 ; 4,6 ; 3,6";
+    // test
+    public static void main(String[] args) {
+        if (args.length <= 0)
+            System.out.println("No args.");
+        else
+            launch(args);
+    }
 
-        Graph g = parseArgs(args[0]);
-        //System.out.println(g.draw());
-        FileUtils.drawToFile(g);        
+    @Override
+    public void start(Stage primaryStage) {
+        List<String> args = getParameters().getRaw();
+
+        // String arg = "GraphTest3# 1,2 ; 2,3 ; 1,4 ; 4,6 ; 3,6";
+
+        Graph g = parseArgs(args.get(0));
+        // System.out.println(g.draw());
+        FileUtils.drawToFile(g);
     }
 
     /**
@@ -94,12 +107,12 @@ public class Main {
                 e.printStackTrace();
             }
             try {
-                //deleteIfPresent(fileName);
+                // deleteIfPresent(fileName);
                 nomnomFile.createNewFile();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            //moveToRes(fileName);
+            // moveToRes(fileName);
             System.out.printf("Created File %s at \"%s\\%s\"\n", fileName, Path.of(RES_DIR).toAbsolutePath(), fileName);
         }
 
@@ -108,4 +121,16 @@ public class Main {
             drawToFile(title, g);
         }
     }
+
 }
+
+/*
+ * public static void main(String[] args) {
+ * if (args.length <= 0) { System.out.println("No args."); return; }
+ * //String arg = "GraphTest3# 1,2 ; 2,3 ; 1,4 ; 4,6 ; 3,6";
+ * 
+ * Graph g = parseArgs(args[0]);
+ * //System.out.println(g.draw());
+ * FileUtils.drawToFile(g);
+ * }
+ */
