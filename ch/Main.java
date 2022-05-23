@@ -17,6 +17,7 @@ import ch.GraphContent.Graph;
 import ch.GraphContent.Vertex;
 import ch.Helpers.Nodes;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -79,7 +80,8 @@ public class Main extends Application {
 
         testBtn.setOnMousePressed(event -> {
             handleConfirm(event, field1, field2);
-            generateNomNom();
+            boolean succ = generateNomNom();
+            if (succ) handleExit(primaryStage);
         });
 
         int fontSize = 15;
@@ -113,12 +115,16 @@ public class Main extends Application {
 
     /**
      * << Main >> method of Model i.e. rest of program non-graphic related
+     * @return true if creation succeeded flase otherwise of nomnoml file.
      */
-    public static void generateNomNom() {
+    public static boolean generateNomNom() {
+        boolean succ = false;
+        
         Graph g = parseArgs(finalArgs);
+        if (g == null) return succ;
 
-        System.out.println(g.draw());
-        FileUtils.drawToFile(g);
+        succ = succ || FileUtils.drawToFile(g.draw(), g);
+        return succ;
     }
 
     /**
@@ -130,12 +136,10 @@ public class Main extends Application {
      * @param f2        TextField
      */
     public static void handleConfirm(MouseEvent e, TextField f1, TextField f2) {
-        //int crt = Integer.parseInt(countText.getText()) + 1;
-        //countText.setText(String.valueOf(crt));
         title = f1.getText();
         edgesStr = f2.getText();
         finalArgs = title.strip() + "#" + edgesStr.strip();
-        System.out.println("Final Args: " + finalArgs);
+        //System.out.println("Final Args: " + finalArgs);
     }
 
     /**
@@ -146,16 +150,30 @@ public class Main extends Application {
      * @return A graph object.
      */
     public static Graph parseArgs(String arg) {
-        String[] args = arg.split("#");
-        String title = args[0].strip(), rest = args[1];
-        String[] edgesStr = rest.split(";");
-        List<Edge> edges = Arrays
-                .stream(edgesStr)
-                .map(e -> e.strip().split(","))
-                .map(e -> new Edge(Integer.parseInt(e[0]), Integer.parseInt(e[1])))
-                .toList();
+        if (arg.isBlank()) return null;
+        Graph out = null;
 
-        return new Graph(title, edges);
+        try {
+            String[] args = arg.split("#");
+            String title = args[0].strip(), rest = args[1];
+            String[] edgesStr = rest.split(";");
+            List<Edge> edges = Arrays
+                    .stream(edgesStr)
+                    .map(e -> e.strip().split(","))
+                    .map(e -> new Edge(Integer.parseInt(e[0]), Integer.parseInt(e[1])))
+                    .toList();
+            out = new Graph(title, edges);
+        } catch (Exception e) {
+            System.out.println("Given argument \"" + arg + "\" is not valid." );
+        }
+    
+        return out;
+    }
+
+    
+    public static void handleExit(Stage primaryStage) {
+        //primaryStage.hide();
+        Platform.exit();
     }
 
     final class FileUtils {
@@ -182,23 +200,28 @@ public class Main extends Application {
          * 
          * @param fileName The name of the file to write to.
          * @param g        Graph, Graph to Draw
+         * @return success
          */
-        public static void drawToFile(String fileName, Graph g) {
+        public static boolean drawToFile(String fileName, Graph g) {
+            boolean succ = true;
             File nomnomFile = new File(fileName);
             try (FileWriter fileWriter = new FileWriter(nomnomFile, Charset.forName("utf8"), false)) {
                 fileWriter.write(g.draw());
                 fileWriter.flush();
             } catch (IOException e) {
+                succ = false;
                 e.printStackTrace();
             }
             try {
                 // deleteIfPresent(fileName);
                 nomnomFile.createNewFile();
             } catch (IOException e) {
+                succ = false;
                 e.printStackTrace();
             }
             // moveToRes(fileName);
             System.out.printf("Created File %s at \"%s\\%s\"\n", fileName, Path.of(RES_DIR).toAbsolutePath(), fileName);
+            return succ;
         }
 
         public static void drawToFile(Graph g) {
