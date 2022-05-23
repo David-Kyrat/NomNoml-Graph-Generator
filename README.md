@@ -10,9 +10,10 @@ If you don't have the package or don't have npm, the program will crash but you'
 
 ---
 
-#### For the GUI app, you can ignore the following.
+#### (For the GUI app, you can ignore the following.)
 
----
+<br>
+
 
 ### CLI is Run like so
 
