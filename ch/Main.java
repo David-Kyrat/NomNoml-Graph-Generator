@@ -81,7 +81,7 @@ public class Main extends Application {
         testBtn.setOnMousePressed(event -> {
             handleConfirm(event, field1, field2);
             boolean succ = generateNomNom();
-            if (succ) handleExit(primaryStage);
+            handleExit(primaryStage);
         });
 
         int fontSize = 15;
