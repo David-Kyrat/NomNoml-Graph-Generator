@@ -1,10 +1,10 @@
 # NomNoml-Graph-Generator (cli)
 
-Generate automatically Nomnoml code for drawing Graph given as input in a new .nomnoml file
+Generate automatically Nomnoml code for drawing Graph given as input in a new .nomnoml file.
 
 <br>
 
-#### For the GUI version please switch to the "FxApp" branch or have a look at the GUI releases
+#### (For the GUI version please switch to the "FxApp" branch or have a look at the GUI releases)
 
 <br>
 
