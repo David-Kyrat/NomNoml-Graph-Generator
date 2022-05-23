@@ -62,20 +62,13 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         int SCENE_W = 800, SCENE_H = 600;
-        //System.out.println("______________________________\n\n\n");
-        // String arg = "GraphTest3# 1,2 ; 2,3 ; 1,4 ; 4,6 ; 3,6";
-        // Graph g = parseArgs(args.get(0));
-
-        // System.out.println(g.draw());
-        // FileUtils.drawToFile(g);
-        Rectangle background = new Rectangle(0.1 * SCENE_W, 0.1 * SCENE_H, Color.RED);
         Button testBtn = new Button("Confirm");
         Text countText = new Text("0");
         countText.getStyleClass().add("boxR");
 
         countText.getStyleClass().add("boxBl");
 
-        Label testLabel = new Label(" = #clicked ", countText);
+        //Label testLabel = new Label(" = #clicked ", countText);
 
         Text titleText = Nodes.newTxt("Enter Graph Title & Edges", countText.getFont().getName(), Color.PURPLE, 25,
                 FontWeight.BOLD);
@@ -85,7 +78,7 @@ public class Main extends Application {
         int inputPadding = 100;
 
         testBtn.setOnMousePressed(event -> {
-            handleConfirm(event, countText, field1, field2);
+            handleConfirm(event, field1, field2);
             generateNomNom();
         });
 
@@ -104,7 +97,7 @@ public class Main extends Application {
                 withClass(inputFieldCntr, "boxC"), testBtn);
         // enter, new Insets(20, 0, 20, 0));
 
-        HBox bottom = Nodes.setUpNewHBox(20, Pos.CENTER, true, background);
+        HBox bottom = Nodes.setUpNewHBox(20, Pos.CENTER, true);
         center.getStyleClass().add("boxB");
 
         BorderPane subroot = new BorderPane(center);
@@ -112,7 +105,7 @@ public class Main extends Application {
 
         StackPane root = new StackPane(subroot);
         Scene scene = new Scene(root, SCENE_W, SCENE_H);
-        scene.getStylesheets().add("/res/debug.css");
+        //scene.getStylesheets().add("/res/debug.css");
 
         Nodes.setShow(primaryStage, scene);
 
@@ -136,9 +129,9 @@ public class Main extends Application {
      * @param f1        TextField
      * @param f2        TextField
      */
-    public static void handleConfirm(MouseEvent e, Text countText, TextField f1, TextField f2) {
-        int crt = Integer.parseInt(countText.getText()) + 1;
-        countText.setText(String.valueOf(crt));
+    public static void handleConfirm(MouseEvent e, TextField f1, TextField f2) {
+        //int crt = Integer.parseInt(countText.getText()) + 1;
+        //countText.setText(String.valueOf(crt));
         title = f1.getText();
         edgesStr = f2.getText();
         finalArgs = title.strip() + "#" + edgesStr.strip();
