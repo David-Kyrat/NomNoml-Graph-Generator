@@ -4,7 +4,16 @@ Generate automatically Nomnoml code for drawing Graph given as input in a new .n
 
 ---
 
-### Command is Run like so
+For the best experience, please ensure you have the npm package installed [nomnoml-cli](https://www.npmjs.com/package/nomnoml-cli) as it will compile the nomnoml code into pdf.  
+
+If you don't have the package or don't have npm, the program will crash but you'll still going to get the generated file without any problem. You're just going to have an error message that you can ignore.
+
+---
+
+#### For the GUI app, you can ignore the following.
+
+
+### CLI is Run like so
 
   ```sh
    java --enable-preview -jar NomNomGenerator.jar <arguments>
