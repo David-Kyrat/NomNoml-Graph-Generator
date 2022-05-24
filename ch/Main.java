@@ -179,6 +179,7 @@ public class Main extends Application {
                     .toList();
             out = new Graph(title, edges);
         } catch (Exception e) {
+            out = null; //to avoid undefined behavior that may occure if forget to handle some exceptions
             System.out.println("Given argument \"" + arg + "\" is not valid." );
         }
     
