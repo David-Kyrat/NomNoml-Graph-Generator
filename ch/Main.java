@@ -241,9 +241,9 @@ public class Main extends Application {
             return succ;
         }
 
-        public static void drawToFile(Graph g) {
+        public static boolean drawToFile(Graph g) {
             String title = g.title() + ".nomnoml";
-            drawToFile(title, g);
+            return drawToFile(title, g);
         }
     }
 
