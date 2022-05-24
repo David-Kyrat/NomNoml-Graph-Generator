@@ -79,8 +79,8 @@ public class Main extends Application {
         int inputPadding = 100;
 
         testBtn.setOnMousePressed(event -> {
-            handleConfirm(event, field1, field2);
-            boolean succ = generateNomNom();
+            boolean succ = handleConfirm(event, field1, field2);
+           // boolean succ = generateNomNom();
             handleExit(primaryStage);
         });
 
@@ -114,20 +114,6 @@ public class Main extends Application {
     }
 
     /**
-     * << Main >> method of Model i.e. rest of program non-graphic related
-     * @return true if creation succeeded flase otherwise of nomnoml file.
-     */
-    public static boolean generateNomNom() {
-        boolean succ = false;
-        
-        Graph g = parseArgs(finalArgs);
-        if (g == null) return succ;
-
-        succ = succ || FileUtils.drawToFile(g.draw(), g);
-        return succ;
-    }
-
-    /**
      * Handle what happens when confirm button is Clicked
      * 
      * @param e         MousEvent
@@ -135,13 +121,42 @@ public class Main extends Application {
      * @param f1        TextField
      * @param f2        TextField
      */
-    public static void handleConfirm(MouseEvent e, TextField f1, TextField f2) {
+    public static boolean handleConfirm(MouseEvent e, TextField f1, TextField f2) {
         title = f1.getText();
         edgesStr = f2.getText();
         finalArgs = title.strip() + "#" + edgesStr.strip();
+        boolean succ = generateNomNom();
+        event.consume();
+        return succ;
         //System.out.println("Final Args: " + finalArgs);
     }
 
+    
+
+    /**
+
+     * << Main >> method of Model i.e. rest of program non-graphic related
+
+     * @return true if creation succeeded flase otherwise of nomnoml file.
+
+     */
+
+    public static boolean generateNomNom() {
+
+        boolean succ = false;
+
+
+
+        Graph g = parseArgs(finalArgs);
+
+        if (g == null) return succ;
+
+        succ = succ || FileUtils.drawToFile(g);
+
+        return succ;
+
+    }
+    
     /**
      * Parses Main methode argument of the form `title#edge1,edge2;edge3,edge4;...`
      * and returns a `Graph` object
