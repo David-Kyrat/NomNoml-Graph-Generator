@@ -236,7 +236,8 @@ public class Main extends Application {
                 e.printStackTrace();
             }
             // moveToRes(fileName);
-            System.out.printf("Created File %s at \"%s\\%s\"\n", fileName, Path.of(RES_DIR).toAbsolutePath(), fileName);
+            if (succ)
+                System.out.printf("Created File %s at \"%s\\%s\"\n", fileName, Path.of(RES_DIR).toAbsolutePath(), fileName);
             return succ;
         }
 
